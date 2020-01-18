@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieDetail from "./MovieDetail";
+import MovieListDetail from "./MovieListDetail";
 
 function MovieList(props) {
 
@@ -7,7 +7,7 @@ function MovieList(props) {
 		<ul className="list-group">
 			{
 				props.movies.map((movie, index) =>
-					<MovieDetail movie={movie} key={index} />
+					<MovieListDetail movie={movie} key={index} />
 				)
 			}
 		</ul>

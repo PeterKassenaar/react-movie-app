@@ -1,34 +1,25 @@
-import React from 'react';
+// MovieDetail.js - component showing details for a given movie
 
-// styles for the moviePoster
-const moviePoster = {
-	maxWidth: '80px',
-};
+import React, {useState} from 'react';
+import {Redirect} from "react-router";
 
 function MovieDetail(props) {
-	const movie = props.movie;
+	const [toHome, setToHome] = useState(false);
 
-	const getDetails = (movie) => {
-		console.log('Get details for: ', movie);
+	const goHome = () => {
+		setToHome(true)
+	};
+
+	if (toHome) {
+		return <Redirect to="/"/>
+	} else {
+		return (
+			<div>
+				<h2>Details for {props.movie}</h2>
+				<button className="btn btn-success" onClick={() => goHome()}>Home</button>
+			</div>
+		);
 	}
-
-	return (
-		<div>
-			<li className="list-group-item" onClick={() => getDetails(movie)} >
-				{/*Only render image if there is a poster (annotated by 'N/A' by the API)*/}
-				{
-					movie.Poster !== 'N/A' ?
-						<img src={movie.Poster}
-							 style={moviePoster}
-							 alt={'Poster for ' + movie.Poster}
-							 title={'Poster for ' + movie.Title}/>
-						:
-						''
-				}
-				{movie.Title} ({movie.Year})
-			</li>
-		</div>
-	);
 }
 
 export default MovieDetail;
