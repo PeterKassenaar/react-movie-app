@@ -7,9 +7,14 @@ const moviePoster = {
 
 function MovieDetail(props) {
 	const movie = props.movie;
+
+	const getDetails = (movie) => {
+		console.log('Get details for: ', movie);
+	}
+
 	return (
 		<div>
-			<li className="list-group-item">
+			<li className="list-group-item" onClick={() => getDetails(movie)} >
 				{/*Only render image if there is a poster (annotated by 'N/A' by the API)*/}
 				{
 					movie.Poster !== 'N/A' ?

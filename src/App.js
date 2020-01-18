@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import axios from 'axios'
 import MovieList from "./components/MovieList";
+import * as api from './api/api';
 
 function App() {
-	const url = 'https://www.omdbapi.com/?apikey=f1f56c8e&';
 	const [keyword, setKeyword] = useState('');
 	const [movies, setMovies] = useState([]);
 
@@ -13,13 +12,10 @@ function App() {
 		}
 	};
 
-	const searchMovies = () => {
+	const searchMovies = async () => {
 		if (keyword.length >= 3) {
-			axios.get(`${url}s=${keyword}`)
-				.then(res => {
-					const movies = res.data.Search;
-					setMovies(movies);
-				})
+			const movies = await api.searchMovies(keyword);
+			setMovies(movies);
 		}
 	};
 
@@ -44,7 +40,7 @@ function App() {
 				   onChange={(event => setKeyword(event.target.value))}
 			/>
 			<button className="btn btn-success"
-					onClick={searchMovies}>
+					onClick={() => searchMovies()}>
 				Search
 			</button>
 			{/*Only render Clear button if there are any movies*/}
@@ -58,7 +54,7 @@ function App() {
 					''
 			}
 			{/*Pass the found movies to the MovieList component*/}
-			<MovieList movies={movies}/>
+			<MovieList movies={movies} />
 		</div>
 	);
 }
