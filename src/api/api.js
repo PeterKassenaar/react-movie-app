@@ -11,5 +11,10 @@ export const searchMovies = (keyword) => {
 
 // Get a single movie by ID
 export const searchMovie = (id) => {
+	console.log({id});
 	return axios.get(`${url}i=${id}`)
+		.then(result => {
+			console.log(result.data);
+			return result.data;
+		})
 };

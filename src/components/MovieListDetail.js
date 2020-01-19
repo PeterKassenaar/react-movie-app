@@ -8,7 +8,7 @@ const moviePoster = {
 
 function MovieListDetail(props) {
 	const [toDetail, setToDetail] = useState(false);
-	const [id, setId] = useState(-1);
+		const [id, setId] = useState(-1);
 	const movie = props.movie;
 
 	const getDetails = (movie) => {

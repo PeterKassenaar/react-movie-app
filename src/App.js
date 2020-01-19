@@ -7,23 +7,37 @@ import FileNotFound from "./components/FileNotFound";
 import MovieDetail from "./components/MovieDetail";
 
 function App() {
+	// 0. state in the app
 	const [keyword, setKeyword] = useState('');
 	const [movies, setMovies] = useState([]);
+	const [movieId, setMovieId] = useState('');
+	const [currentMovie, setCurrentMovie] = useState({});
+	// const history = useHistory();
 
+	// 1. capture Enter key in search box
 	const onEnter = (event) => {
 		if (event.key === 'Enter') {
 			searchMovies()
 		}
 	};
 
+	// 2. Search for movies, based on keyword
 	const searchMovies = async () => {
 		if (keyword.length >= 3) {
-			const movies = await api.searchMovies(keyword);
-			setMovies(movies);
+			setMovies(await api.searchMovies(keyword));
+			// setMovies(movies);
 		}
 	};
 
-	// Reset/clear button
+	// 3. Search for specific movie, based on ID
+	const searchMovie = async (movie) => {
+		// setCurrentMovie(movie);
+		setMovieId(movie.imdbID);
+		setCurrentMovie(await api.searchMovie(movie.imdbID));
+		// history.push('/detail/' + movie.imdbID)
+	};
+
+	// 3. Reset/clear button
 	const clear = () => {
 		setKeyword('');
 		setMovies([]);
@@ -63,13 +77,13 @@ function App() {
 								''
 						}
 						{/*Pass the found movies to the MovieList component*/}
-						<MovieList movies={movies}/>
+						<MovieList movies={movies} searchMovie={(movie) => searchMovie(movie)}/>
 					</Route>
 					<Route path="/detail/:id">
-						<MovieDetail />
+						<MovieDetail movie={currentMovie}/>
 					</Route>
 					{/*404 - File not found*/}
-					<Route component={FileNotFound} />
+					<Route component={FileNotFound}/>
 				</Switch>
 			</div>
 		</BrowserRouter>
